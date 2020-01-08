@@ -6,107 +6,93 @@ namespace GameOfLife
 {
     class Simulation
     {
-        private int Heigth;
-        private int Width;
-        private bool[,] cells;
         private int NumOfIterations = 0;
-        private int NumOfAliveCells = 0;
+        //private int NumOfAliveCells = 0;
 
-        public Simulation(int Heigth, int Width)
+        public void DrawAndGrowLoop(Field field)
         {
-            this.Heigth = Heigth;
-            this.Width = Width;
-            cells = new bool[Heigth, Width];
-            GenerateField();
-        }
-
-        public void GenerateField()
-        {
-            Random generator = new Random();
-            int number;
-
-            for (int i = 0; i < Heigth; i++)
+            while (true)
             {
-                for (int j = 0; j < Width; j++)
-                {
-                    number = generator.Next(2);
-                    cells[i, j] = ((number == 0) ? false : true);
-                }
+                Console.Clear();
+                Console.WriteLine("Number of iterations: {0}", NumOfIterations);   
+                //Console.WriteLine("Number of live cells: {0}", NumOfAliveCells);
+                DrawGame(field);
+                Grow(field);
+                NumOfIterations++;
+                System.Threading.Thread.Sleep(100);
             }
         }
 
-        public void DrawAndGrow()
+        public void DrawGame(Field field)
         {
-            Console.WriteLine("Number of iterations: {0}", NumOfIterations);   
-            Console.WriteLine("Number of live cells: {0}", NumOfAliveCells);
-            DrawGame();
-            Grow();
-            NumOfIterations++;
-        }
-
-        public void DrawGame()
-        {
-            for (int i = 0; i < Heigth; i++)
+            for (int currentRow = 0; currentRow < field.Height; currentRow++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    Console.Write(cells[i, j] ? "1" : " ");
-                    if (j == Width - 1) Console.WriteLine("\r");
+                    Console.Write(field.cells[currentRow, currentColumn] ? "1" : " ");
+                    if (currentColumn == field.Width - 1) Console.WriteLine("\r");
                 }
             }
             Console.SetCursorPosition(0, Console.WindowTop);
         }
 
-        public void Grow()
+        public void Grow(Field field)
         {
-            for (int i = 0; i < Heigth; i++)
+            for (int currentRow = 0; currentRow < field.Height; currentRow++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    int numOfAliveNeighbors = GetNeighbors(i, j);
+                    int numOfAliveNeighbors = GetNeighbors(currentRow, currentColumn, field);
 
-                    if (cells[i, j])
+                    if (field.cells[currentRow, currentColumn])
                     {
                         if (numOfAliveNeighbors < 2)
                         {
-                            cells[i, j] = false;
+                            field.cells[currentRow, currentColumn] = false;
                         }
 
                         if (numOfAliveNeighbors > 3)
                         {
-                            cells[i, j] = false;
+                            field.cells[currentRow, currentColumn] = false;
                         }
                     }
                     else
                     {
                         if (numOfAliveNeighbors == 3)
                         {
-                            cells[i, j] = true;
+                            field.cells[currentRow, currentColumn] = true;
                         }
-                    }
-
-                    
+                    }   
                 }
             }
         }
 
-        public int GetNeighbors(int x, int y)
+        public int GetNeighbors(int cellRow, int cellColumn, Field field)
         {
             int NumOfAliveNeighbors = 0;
-
-            for (int i = x - 1; i < x + 2; i++)
+  
+            for (int cellNeighborRow = cellRow - 1; cellNeighborRow < cellRow + 2; cellNeighborRow++)
             {
-                for (int j = y - 1; j < y + 2; j++)
+                for (int cellNeighborColumn = cellColumn - 1; cellNeighborColumn < cellColumn + 2; cellNeighborColumn++)
                 {
-                    if (!((i < 0 || j < 0) || (i >= Heigth || j >= Width)))
+                    var NegativeNeightbor = cellNeighborRow < 0 
+                        || cellNeighborColumn < 0 
+                        || (cellNeighborRow >= field.Height 
+                        || cellNeighborColumn >= field.Width);
+
+                    var RealCell = (cellNeighborRow == cellRow)
+                        && (cellNeighborColumn == cellColumn);
+                    
+                    if (!NegativeNeightbor)
                     {
-                        if (!((i == x) && (j == y)))
+                        if (!RealCell)
                         {
-                            if (cells[i, j] == true) NumOfAliveNeighbors++;
+                            if (field.cells[cellNeighborRow, cellNeighborColumn] == true) NumOfAliveNeighbors++;
                         }
                     }
                 }
             }
+
             return NumOfAliveNeighbors;
         }
     }

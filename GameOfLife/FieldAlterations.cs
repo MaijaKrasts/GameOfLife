@@ -4,19 +4,49 @@ using System.Text;
 
 namespace GameOfLife
 {
-    class FieldAlterations
+    class FieldAlterations 
     {
-        private int Heigth;
-        private int Width;
-        private bool[,] cells;
-
-        public FieldAlterations(int Heigth, int Width)
+        public Field GiveParameters()
         {
-            this.Heigth = Heigth;
-            this.Width = Width;
-            cells = new bool[Heigth, Width];
-        }
+            Field field = new Field();
 
-        
+            Console.WriteLine("Welcome to the Game of Life!");
+            Console.WriteLine();
+            Console.WriteLine("Add the parameters to create game field:");
+           
+            Console.WriteLine("Number of rows (height):");
+            int Height = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Number of columns (width):");
+            int Width = int.Parse(Console.ReadLine());
+
+            field.Height = Height;
+            field.Width = Width;
+            field.cells = new bool[Height, Width];
+            Console.Clear();
+
+            GenerateField(field);
+
+            return field;
+        }
+        public Field GenerateField(Field field)
+        {           
+            Random generator = new Random();
+            int number;
+
+            for (int currentRow = 0; currentRow < field.Height; currentRow++)
+            {
+                for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
+                {
+                    number = generator.Next(2);
+                    field.cells[currentRow, currentColumn] = ((number == 0) ? false : true);
+                }
+            }
+
+            Simulation sim = new Simulation();
+            sim.DrawAndGrowLoop(field);
+
+            return field;
+        }
     }
 }
