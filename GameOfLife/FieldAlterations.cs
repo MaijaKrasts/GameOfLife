@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
-    class FieldAlterations 
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    internal class FieldAlterations
     {
         public Field GiveParameters()
         {
@@ -13,24 +13,25 @@ namespace GameOfLife
             Console.WriteLine("Welcome to the Game of Life!");
             Console.WriteLine();
             Console.WriteLine("Add the parameters to create game field:");
-           
+
             Console.WriteLine("Number of rows (height):");
-            int Height = int.Parse(Console.ReadLine());
+            int height = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Number of columns (width):");
-            int Width = int.Parse(Console.ReadLine());
+            int width = int.Parse(Console.ReadLine());
 
-            field.Height = Height;
-            field.Width = Width;
-            field.cells = new bool[Height, Width];
+            field.Height = height;
+            field.Width = width;
+            field.Cells = new bool[height, width];
             Console.Clear();
 
-            GenerateField(field);
+            this.GenerateField(field);
 
             return field;
         }
+
         public Field GenerateField(Field field)
-        {           
+        {
             Random generator = new Random();
             int number;
 
@@ -39,7 +40,7 @@ namespace GameOfLife
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
                     number = generator.Next(2);
-                    field.cells[currentRow, currentColumn] = ((number == 0) ? false : true);
+                    field.Cells[currentRow, currentColumn] = (number == 0) ? false : true;
                 }
             }
 

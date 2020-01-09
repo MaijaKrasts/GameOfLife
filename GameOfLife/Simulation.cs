@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
-    class Simulation
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    internal class Simulation
     {
-        private int NumOfIterations = 0;
+        private int numOfIterations = 0;
+
         public void DrawAndGrowLoop(Field field)
         {
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Number of iterations: {0}", NumOfIterations);   
+                Console.WriteLine("Number of iterations: {0}", numOfIterations);
                 DrawGame(field);
                 Grow(field);
-                NumOfIterations++;
+                numOfIterations++;
                 System.Threading.Thread.Sleep(100);
             }
         }
@@ -26,10 +27,14 @@ namespace GameOfLife
             {
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    Console.Write(field.cells[currentRow, currentColumn] ? "1" : " ");
-                    if (currentColumn == field.Width - 1) Console.WriteLine("\r");
+                    Console.Write(field.Cells[currentRow, currentColumn] ? "1" : " ");
+                    if (currentColumn == field.Width - 1)
+                    {
+                        Console.WriteLine("\r");
+                    }
                 }
             }
+
             Console.SetCursorPosition(0, Console.WindowTop);
         }
 
@@ -41,56 +46,58 @@ namespace GameOfLife
                 {
                     int numOfAliveNeighbors = GetNeighbors(currentRow, currentColumn, field);
 
-                    if (field.cells[currentRow, currentColumn])
+                    if (field.Cells[currentRow, currentColumn])
                     {
                         if (numOfAliveNeighbors < 2)
                         {
-                            field.cells[currentRow, currentColumn] = false;
+                            field.Cells[currentRow, currentColumn] = false;
                         }
 
                         if (numOfAliveNeighbors > 3)
                         {
-                            field.cells[currentRow, currentColumn] = false;
+                            field.Cells[currentRow, currentColumn] = false;
                         }
                     }
                     else
                     {
                         if (numOfAliveNeighbors == 3)
                         {
-                            field.cells[currentRow, currentColumn] = true;
+                            field.Cells[currentRow, currentColumn] = true;
                         }
-                    }   
+                    }
                 }
             }
         }
 
         public int GetNeighbors(int cellRow, int cellColumn, Field field)
         {
-            int NumOfAliveNeighbors = 0;
-  
+            int numOfAliveNeighbors = 0;
             for (int cellNeighborRow = cellRow - 1; cellNeighborRow < cellRow + 2; cellNeighborRow++)
             {
                 for (int cellNeighborColumn = cellColumn - 1; cellNeighborColumn < cellColumn + 2; cellNeighborColumn++)
                 {
-                    var NegativeNeightbor = cellNeighborRow < 0 
-                        || cellNeighborColumn < 0 
-                        || (cellNeighborRow >= field.Height 
+                    var negativeNeightbor = cellNeighborRow < 0
+                        || cellNeighborColumn < 0
+                        || (cellNeighborRow >= field.Height
                         || cellNeighborColumn >= field.Width);
 
-                    var RealCell = (cellNeighborRow == cellRow)
+                    var realCell = (cellNeighborRow == cellRow)
                         && (cellNeighborColumn == cellColumn);
-                    
-                    if (!NegativeNeightbor)
+
+                    if (!negativeNeightbor)
                     {
-                        if (!RealCell)
+                        if (!realCell)
                         {
-                            if (field.cells[cellNeighborRow, cellNeighborColumn] == true) NumOfAliveNeighbors++;
+                            if (field.Cells[cellNeighborRow, cellNeighborColumn] == true)
+                            {
+                                numOfAliveNeighbors++;
+                            }
                         }
                     }
                 }
             }
 
-            return NumOfAliveNeighbors;
+            return numOfAliveNeighbors;
         }
     }
 }
