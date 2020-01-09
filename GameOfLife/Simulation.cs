@@ -7,15 +7,12 @@ namespace GameOfLife
     class Simulation
     {
         private int NumOfIterations = 0;
-        //private int NumOfAliveCells = 0;
-
         public void DrawAndGrowLoop(Field field)
         {
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Number of iterations: {0}", NumOfIterations);   
-                //Console.WriteLine("Number of live cells: {0}", NumOfAliveCells);
                 DrawGame(field);
                 Grow(field);
                 NumOfIterations++;
