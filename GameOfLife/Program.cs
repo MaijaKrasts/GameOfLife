@@ -5,7 +5,7 @@
         public static void Main(string[] args)
         {
             FieldAlterations start = new FieldAlterations();
-            start.GiveParameters();
+            start.Setup();
         }
     }
 }

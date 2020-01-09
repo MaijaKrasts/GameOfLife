@@ -4,7 +4,7 @@
 
     public abstract class BaseFieldAlterations
     {
-        public Field GiveParameters()
+        public Field Setup()
         {
             Field field = new Field();
 
@@ -13,15 +13,18 @@
             Console.WriteLine("Add the parameters to create game field:");
 
             Console.WriteLine("Number of rows (height):");
-            string inputHeight = Console.ReadLine();
+            var inputHeight = Console.ReadLine();
 
             Console.WriteLine("Number of columns (width):");
-            string inputWidth = Console.ReadLine();
+            var inputWidth = Console.ReadLine();
 
-            if (string.IsNullOrEmpty(inputHeight) || string.IsNullOrEmpty(inputWidth))
+            if (string.IsNullOrWhiteSpace(inputHeight) ||
+                string.IsNullOrWhiteSpace(inputWidth) ||
+                inputHeight.Length > 9 ||
+                inputWidth.Length > 9)
             {
                 Console.WriteLine("Height or width parameters were not right. Try again!");
-                this.GiveParameters();
+                this.Setup();
             }
             else
             {
@@ -32,11 +35,18 @@
                 field.Width = width;
                 field.Cells = new bool[height, width];
                 Console.Clear();
-
-                this.GenerateField(field);
             }
 
+            this.GenerateFieldAndRun(field);
             return field;
+        }
+
+        public void GenerateFieldAndRun(Field field)
+        {
+            this.GenerateField(field);
+
+            SimulationLoop sim = new SimulationLoop();
+            sim.DrawAndGrowLoop(field);
         }
 
         public Field GenerateField(Field field)
@@ -52,9 +62,6 @@
                     field.Cells[currentRow, currentColumn] = (number == 0) ? false : true;
                 }
             }
-
-            SimulationLoop sim = new SimulationLoop();
-            sim.DrawAndGrowLoop(field);
 
             return field;
         }
