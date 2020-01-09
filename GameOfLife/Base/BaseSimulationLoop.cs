@@ -1,8 +1,8 @@
-﻿namespace GameOfLife
+﻿namespace GameOfLife.Base
 {
     using System;
 
-    internal class Simulation
+    public abstract class BaseSimulationLoop
     {
         private int numOfIterations = 0;
 
@@ -25,7 +25,7 @@
             {
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    Console.Write(field.Cells[currentRow, currentColumn] ? "1" : " ");
+                    Console.Write(field.Cells[currentRow, currentColumn] ? "#" : " ");
                     if (currentColumn == field.Width - 1)
                     {
                         Console.WriteLine("\r");
