@@ -1,8 +1,6 @@
 ﻿namespace GameOfLife
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     internal class Simulation
     {
@@ -13,10 +11,10 @@
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Number of iterations: {0}", numOfIterations);
-                DrawGame(field);
-                Grow(field);
-                numOfIterations++;
+                Console.WriteLine("Number of iterations: {0}", this.numOfIterations);
+                this.DrawGame(field);
+                this.Grow(field);
+                this.numOfIterations++;
                 System.Threading.Thread.Sleep(100);
             }
         }
@@ -44,7 +42,7 @@
             {
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    int numOfAliveNeighbors = GetNeighbors(currentRow, currentColumn, field);
+                    int numOfAliveNeighbors = this.GetNeighbors(currentRow, currentColumn, field);
 
                     if (field.Cells[currentRow, currentColumn])
                     {

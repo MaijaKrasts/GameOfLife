@@ -1,9 +1,5 @@
 ﻿namespace GameOfLife
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     public class Field
     {
         public int Height { get; set; }

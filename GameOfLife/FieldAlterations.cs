@@ -1,8 +1,6 @@
 ﻿namespace GameOfLife
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     internal class FieldAlterations
     {
@@ -15,17 +13,28 @@
             Console.WriteLine("Add the parameters to create game field:");
 
             Console.WriteLine("Number of rows (height):");
-            int height = int.Parse(Console.ReadLine());
+            string inputHeight = Console.ReadLine();
 
             Console.WriteLine("Number of columns (width):");
-            int width = int.Parse(Console.ReadLine());
+            string inputWidth = Console.ReadLine();
 
-            field.Height = height;
-            field.Width = width;
-            field.Cells = new bool[height, width];
-            Console.Clear();
+            if (string.IsNullOrEmpty(inputHeight) || string.IsNullOrEmpty(inputWidth))
+            {
+                Console.WriteLine("Height or width parameters were not right. Try again!");
+                this.GiveParameters();
+            }
+            else
+            {
+                int height = int.Parse(inputHeight);
+                int width = int.Parse(inputWidth);
 
-            this.GenerateField(field);
+                field.Height = height;
+                field.Width = width;
+                field.Cells = new bool[height, width];
+                Console.Clear();
+
+                this.GenerateField(field);
+            }
 
             return field;
         }
