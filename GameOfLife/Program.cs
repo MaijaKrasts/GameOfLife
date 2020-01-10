@@ -4,7 +4,7 @@
     {
         public static void Main(string[] args)
         {
-            FieldAlterations start = new FieldAlterations();
+            Startup start = new Startup();
             start.Setup();
         }
     }
