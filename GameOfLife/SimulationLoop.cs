@@ -2,9 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using GameOfLife.Interfaces;
     using GameOfLife.Models;
 
-    internal class SimulationLoop
+    internal class SimulationLoop :ISimulationLoop, INeighbors
     {
         public List<Cell> FillCellList(Field field)
         {
@@ -28,7 +29,7 @@
             return cells;
         }
 
-        private void FindNeighbors(List<Cell> cells, Field field)
+        public void FindNeighbors(List<Cell> cells, Field field)
         {
             foreach (var cell in cells)
             {
@@ -38,7 +39,7 @@
             Grow(field, cells);
         }
 
-        private void Grow(Field field, List<Cell> cells)
+        public void Grow(Field field, List<Cell> cells)
         {
             int aliveNeighbors = 0;
             for (int currentRow = 0; currentRow < field.Height; currentRow++)
@@ -51,7 +52,7 @@
             }
         }
 
-        private bool ChangeLifeStatuss(int aliveneighbors, int currentRow, int currentColumn, Field field)
+        public bool ChangeLifeStatuss(int aliveneighbors, int currentRow, int currentColumn, Field field)
         {
             var dyingActiveCell = field.Cells[currentRow, currentColumn]
                 && (aliveneighbors < 2 || aliveneighbors > 3);
@@ -78,7 +79,7 @@
             return field.Cells[currentRow, currentColumn];
         }
 
-        private int GetNeighbors(int cellRow, int cellColumn, Field field)
+        public int GetNeighbors(int cellRow, int cellColumn, Field field)
         {
             int numOfAliveNeighbors = 0;
 
@@ -103,7 +104,7 @@
             return numOfAliveNeighbors;
         }
 
-        private NeighborCell AliveNeighbors(NeighborCell neighbor, Field field)
+        public NeighborCell AliveNeighbors(NeighborCell neighbor, Field field)
         {
             var negativeNeightbor = neighbor.CellNeighborRow < 0
              || neighbor.CellNeighborColumn < 0

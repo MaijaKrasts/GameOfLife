@@ -4,7 +4,7 @@
     {
         public static void Main(string[] args)
         {
-            Setup start = new Setup();
+            Inputs start = new Inputs();
             start.GetUserInput();
         }
     }

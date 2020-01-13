@@ -2,8 +2,9 @@
 {
     using System;
     using System.Linq;
+    using GameOfLife.Interfaces;
 
-    public class Setup
+    public class Inputs : IGameSetup
     {
         public Field GetUserInput()
         {

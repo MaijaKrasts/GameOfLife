@@ -1,19 +1,11 @@
 ﻿namespace GameOfLife
 {
     using System;
+    using GameOfLife.Interfaces;
 
-    internal class FieldAlterations
+    internal class FieldAlterations : IField, ISeedField
     {
-        public void GenerateFieldAndRun(Field field)
-        {
-            this.SeedField(field);
-            //this.GenerateField(field);
-
-            Display play = new Display();
-            play.PrintResultsLoop(field);
-        }
-
-        private Field GenerateField(Field field)
+        public Field GenerateField(Field field)
         {
             Random generator = new Random();
             int number;
@@ -30,7 +22,16 @@
             return field;
         }
 
-        private Field SeedField(Field field)
+        public void GenerateFieldAndRun(Field field)
+        {
+            //this.SeedField(field);
+            this.GenerateField(field);
+
+            Display play = new Display();
+            play.PrintResultsLoop(field);
+        }
+
+        public Field SeedField(Field field)
         {
             field.Height = 3;
             field.Width = 3;

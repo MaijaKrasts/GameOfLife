@@ -1,45 +1,25 @@
-﻿using System;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
-    public class Display
+    using System;
+    using GameOfLife.Interfaces;
+
+    public class Display : IDisplayLoop, ILiveCells
     {
         private int numOfIterations = 1;
         private int numOfLiveCells = 0;
 
-        public void PrintResultsLoop(Field field)
+        public int AddLiveCells()
         {
-            while (true)
-            {
-                while (!Console.KeyAvailable)
-                {
-                    this.numOfLiveCells = 0;
-                    Console.Clear();
-                    Console.WriteLine("Number of iterations: {0}", this.numOfIterations);
-                    this.DrawGame(field);
-
-                    this.CreateNewGame(field);
-
-                    Console.WriteLine("Number of live cells: {0}", this.numOfLiveCells);
-                    this.numOfIterations++;
-                    Console.SetCursorPosition(0, Console.WindowTop);
-                    System.Threading.Thread.Sleep(1000);
-
-                }
-
-                Console.Clear();
-                Console.WriteLine("Game stoped!");
-                break;
-            }
+            return this.numOfLiveCells++;
         }
 
-        private void CreateNewGame(Field field)
+        public void CreateNewGame(Field field)
         {
             var sim = new SimulationLoop();
             sim.FillCellList(field);
         }
 
-        private void DrawGame(Field field)
+        public void DrawGame(Field field)
         {
             for (int currentRow = 0; currentRow < field.Height; currentRow++)
             {
@@ -64,9 +44,29 @@ namespace GameOfLife
             }
         }
 
-        private int AddLiveCells()
+        public void PrintResultsLoop(Field field)
         {
-            return this.numOfLiveCells++;
+            while (true)
+            {
+                while (!Console.KeyAvailable)
+                {
+                    this.numOfLiveCells = 0;
+                    Console.Clear();
+                    Console.WriteLine("Number of iterations: {0}", this.numOfIterations);
+                    this.DrawGame(field);
+
+                    this.CreateNewGame(field);
+
+                    Console.WriteLine("Number of live cells: {0}", this.numOfLiveCells);
+                    this.numOfIterations++;
+                    Console.SetCursorPosition(0, Console.WindowTop);
+                    System.Threading.Thread.Sleep(1000);
+                }
+
+                Console.Clear();
+                Console.WriteLine("Game stoped!");
+                break;
+            }
         }
     }
 }
