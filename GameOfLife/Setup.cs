@@ -3,9 +3,9 @@
     using System;
     using System.Linq;
 
-    public class Startup
+    public class Setup
     {
-        public Field Setup()
+        public Field GetUserInput()
         {
             Field field = new Field();
 
@@ -41,7 +41,7 @@
             else
             {
                 Console.WriteLine("Height or width parameters were not right. Try again!");
-                this.Setup();
+                this.GetUserInput();
             }
 
             return field;

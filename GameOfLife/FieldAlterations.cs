@@ -6,14 +6,14 @@
     {
         public void GenerateFieldAndRun(Field field)
         {
-            //this.SeedField(field);
-            this.GenerateField(field);
+            this.SeedField(field);
+            //this.GenerateField(field);
 
-            SimulationLoop sim = new SimulationLoop();
-            sim.DrawFieldLoop(field);
+            Display play = new Display();
+            play.PrintResultsLoop(field);
         }
 
-        public Field GenerateField(Field field)
+        private Field GenerateField(Field field)
         {
             Random generator = new Random();
             int number;
@@ -30,7 +30,7 @@
             return field;
         }
 
-        public Field SeedField(Field field)
+        private Field SeedField(Field field)
         {
             field.Height = 3;
             field.Width = 3;

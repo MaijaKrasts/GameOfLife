@@ -1,68 +1,12 @@
 ﻿namespace GameOfLife
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using GameOfLife.Models;
 
     internal class SimulationLoop
     {
-        private int numOfIterations = 1;
-        private int numOfLiveCells = 0;
-        public List<Cell> cells { get; set; }
-
-        //public void DrawAndGrowLoop(Field field, Field liveField)
-        //{
-        //    while (true)
-        //    {
-        //        while (!Console.KeyAvailable)
-        //        {
-        //            this.numOfLiveCells = 0;
-        //            Console.Clear();
-        //            Console.WriteLine("Number of iterations: {0}", this.numOfIterations);
-        //            if (this.numOfIterations > 1)
-        //            {
-        //                field = liveField;
-        //            }
-
-        //            this.DrawGame(field);
-        //            //this.Grow(field);
-        //            Console.WriteLine("Number of live cells: {0}", this.numOfLiveCells);
-        //            this.numOfIterations++;
-        //            Console.SetCursorPosition(0, Console.WindowTop);
-        //            System.Threading.Thread.Sleep(4000);
-        //        }
-
-        //        Console.Clear();
-        //        Console.WriteLine("Game stoped!");
-        //        break;
-        //    }
-        //}
-        public void DrawFieldLoop(Field field)
-        {
-            while (true)
-            {
-                while (!Console.KeyAvailable)
-                {
-                    this.numOfLiveCells = 0;
-                    Console.Clear();
-                    Console.WriteLine("Number of iterations: {0}", this.numOfIterations);
-                    this.DrawGame(field);
-                    FillCellList(field);
-                    Console.WriteLine("Number of live cells: {0}", this.numOfLiveCells);
-                    this.numOfIterations++;
-                    Console.SetCursorPosition(0, Console.WindowTop);
-                    System.Threading.Thread.Sleep(1000);
-
-                }
-
-                Console.Clear();
-                Console.WriteLine("Game stoped!");
-                break;
-            }
-        }
-
-        private List<Cell> FillCellList(Field field)
+        public List<Cell> FillCellList(Field field)
         {
             List<Cell> cells = new List<Cell>();
 
@@ -70,59 +14,31 @@
             {
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    Cell cell = new Cell();
-
-                    cell.AliveNeighbors = 0;
-                    cell.CellColumn = currentColumn;
-                    cell.CellRow = currentRow;
+                    Cell cell = new Cell()
+                    {
+                        AliveNeighbors = 0,
+                        CellColumn = currentColumn,
+                        CellRow = currentRow,
+                    };
                     cells.Add(cell);
                 }
             }
 
-            FindNeighbors(cells, field);
+            this.FindNeighbors(cells, field);
             return cells;
-        }
-
-        public void DrawGame(Field field)
-        {
-            for (int currentRow = 0; currentRow < field.Height; currentRow++)
-            {
-                for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
-                {
-                    var currentCell = field.Cells[currentRow, currentColumn];
-                    if (currentCell)
-                    {
-                        Console.Write("#");
-                        this.AddLiveCells();
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-
-                    if (currentColumn == field.Width - 1)
-                    {
-                        Console.WriteLine("\r");
-                    }
-                }
-            }
-        }
-
-        public int AddLiveCells()
-        {
-            return this.numOfLiveCells++;
         }
 
         private void FindNeighbors(List<Cell> cells, Field field)
         {
             foreach (var cell in cells)
             {
-                cell.AliveNeighbors = GetNeighbors(cell.CellRow, cell.CellColumn, field);
+                cell.AliveNeighbors = this.GetNeighbors(cell.CellRow, cell.CellColumn, field);
             }
 
             Grow(field, cells);
         }
-        public void Grow(Field field, List<Cell> cells)
+
+        private void Grow(Field field, List<Cell> cells)
         {
             int aliveNeighbors = 0;
             for (int currentRow = 0; currentRow < field.Height; currentRow++)
@@ -135,71 +51,34 @@
             }
         }
 
-        public bool ChangeLifeStatuss(int aliveneighbors, int currentRow, int currentColumn, Field field)
+        private bool ChangeLifeStatuss(int aliveneighbors, int currentRow, int currentColumn, Field field)
         {
-            if (field.Cells[currentRow, currentColumn])
+            var dyingActiveCell = field.Cells[currentRow, currentColumn]
+                && (aliveneighbors < 2 || aliveneighbors > 3);
+
+            var stayingAliveCell = field.Cells[currentRow, currentColumn] &&
+                (aliveneighbors == 2 || aliveneighbors == 3);
+
+            var newBornCell = !field.Cells[currentRow, currentColumn] &&
+                aliveneighbors == 3;
+
+            if (dyingActiveCell)
             {
-                if (aliveneighbors < 2 || aliveneighbors > 3)
-                {
-                    field.Cells[currentRow, currentColumn] = false;
-                }
-
-                if (aliveneighbors == 2 || aliveneighbors == 3)
-                {
-                    field.Cells[currentRow, currentColumn] = true;
-                }// TODO refactor
-
+                field.Cells[currentRow, currentColumn] = false;
             }
-            else
+            else if (stayingAliveCell)
             {
-                if (aliveneighbors == 3)
-                {
-                    field.Cells[currentRow, currentColumn] = true;
-                }
+                field.Cells[currentRow, currentColumn] = true;
             }
-
-            return field.Cells[currentRow, currentColumn];
-        }
-        //public void Grow(Field field, List<Cell> cells)
-        //{
-        //    for (int currentRow = 0; currentRow < field.Height; currentRow++)
-        //    {
-        //        for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
-        //        {
-        //            field.Cells[currentRow, currentColumn] = this.LifeStatuss(currentRow, currentColumn, field);
-        //        }
-        //    }
-        //}
-
-        public bool LifeStatuss(int currentRow, int currentColumn, Field field)
-        {
-            int numOfAliveNeighbors = this.GetNeighbors(currentRow, currentColumn, field);
-
-            if (field.Cells[currentRow, currentColumn])
+            else if (newBornCell)
             {
-                if (numOfAliveNeighbors < 2 || numOfAliveNeighbors > 3)
-                {
-                    field.Cells[currentRow, currentColumn] = false;
-                }
-
-                if (numOfAliveNeighbors == 2 || numOfAliveNeighbors == 3)
-                {
-                    field.Cells[currentRow, currentColumn] = true;
-                }// TODO refactor
-
-            }
-            else
-            {
-                if (numOfAliveNeighbors == 3)
-                {
-                   field.Cells[currentRow, currentColumn] = true;
-                }
+                field.Cells[currentRow, currentColumn] = true;
             }
 
             return field.Cells[currentRow, currentColumn];
         }
 
-        public int GetNeighbors(int cellRow, int cellColumn, Field field)
+        private int GetNeighbors(int cellRow, int cellColumn, Field field)
         {
             int numOfAliveNeighbors = 0;
 
@@ -224,7 +103,7 @@
             return numOfAliveNeighbors;
         }
 
-        public NeighborCell AliveNeighbors(NeighborCell neighbor, Field field)
+        private NeighborCell AliveNeighbors(NeighborCell neighbor, Field field)
         {
             var negativeNeightbor = neighbor.CellNeighborRow < 0
              || neighbor.CellNeighborColumn < 0
