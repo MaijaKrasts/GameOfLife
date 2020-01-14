@@ -1,11 +1,15 @@
 ﻿namespace GameOfLife
 {
+    using System;
+
     public class GameOfLiveProgram
     {
         public static void Main(string[] args)
         {
-            Inputs start = new Inputs();
-            start.GetUserInput();
+            GameLoop play = new GameLoop();
+            play.Loop();
+
+            Console.Read();
         }
     }
 }

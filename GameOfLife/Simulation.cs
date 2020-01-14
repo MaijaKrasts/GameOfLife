@@ -5,9 +5,9 @@
     using GameOfLife.Interfaces;
     using GameOfLife.Models;
 
-    internal class SimulationLoop :ISimulationLoop, INeighbors
+    internal class Simulation : ISimulation
     {
-        public List<Cell> FillCellList(Field field)
+        public List<Cell> StartNewGen(Field field)
         {
             List<Cell> cells = new List<Cell>();
 
@@ -27,16 +27,6 @@
 
             this.FindNeighbors(cells, field);
             return cells;
-        }
-
-        public void FindNeighbors(List<Cell> cells, Field field)
-        {
-            foreach (var cell in cells)
-            {
-                cell.AliveNeighbors = this.GetNeighbors(cell.CellRow, cell.CellColumn, field);
-            }
-
-            Grow(field, cells);
         }
 
         public void Grow(Field field, List<Cell> cells)
@@ -79,6 +69,16 @@
             return field.Cells[currentRow, currentColumn];
         }
 
+        public void FindNeighbors(List<Cell> cells, Field field)
+        {
+            foreach (var cell in cells)
+            {
+                cell.AliveNeighbors = this.GetNeighbors(cell.CellRow, cell.CellColumn, field);
+            }
+
+            Grow(field, cells);
+        }
+
         public int GetNeighbors(int cellRow, int cellColumn, Field field)
         {
             int numOfAliveNeighbors = 0;
@@ -87,45 +87,28 @@
             {
                 for (int cellNeighborColumn = cellColumn - 1; cellNeighborColumn < cellColumn + 2; cellNeighborColumn++)
                 {
-                    NeighborCell neighbor = new NeighborCell()
+                     var negativeNeightbor = cellNeighborRow < 0
+                     || cellNeighborColumn < 0
+                     || cellNeighborRow >= field.Height
+                     || cellNeighborColumn >= field.Width;
+
+                     var actualCell = (cellNeighborRow == cellRow)
+                        && (cellNeighborColumn == cellColumn);
+
+                     if (!negativeNeightbor)
                     {
-                        CellColumn = cellColumn,
-                        CellNeighborColumn = cellNeighborColumn,
-                        CellNeighborRow = cellNeighborRow,
-                        CellRow = cellRow,
-                        AliveNeighbors = numOfAliveNeighbors,
-                    };
-
-                    this.AliveNeighbors(neighbor, field);
-                    numOfAliveNeighbors = neighbor.AliveNeighbors;
-                }
-            }
-
-            return numOfAliveNeighbors;
-        }
-
-        public NeighborCell AliveNeighbors(NeighborCell neighbor, Field field)
-        {
-            var negativeNeightbor = neighbor.CellNeighborRow < 0
-             || neighbor.CellNeighborColumn < 0
-             || neighbor.CellNeighborRow >= field.Height
-             || neighbor.CellNeighborColumn >= field.Width;
-
-            var actualCell = (neighbor.CellNeighborRow == neighbor.CellRow)
-                && (neighbor.CellNeighborColumn == neighbor.CellColumn);
-
-            if (!negativeNeightbor)
-            {
-                if (!actualCell)
-                {
-                    if (field.Cells[neighbor.CellNeighborRow, neighbor.CellNeighborColumn] == true)
-                    {
-                        neighbor.AliveNeighbors++;
+                        if (!actualCell)
+                        {
+                            if (field.Cells[cellNeighborRow, cellNeighborColumn] == true)
+                            {
+                                numOfAliveNeighbors++;
+                            }
+                        }
                     }
                 }
             }
 
-            return neighbor;
+            return numOfAliveNeighbors;
         }
     }
 }

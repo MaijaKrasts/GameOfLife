@@ -1,11 +1,13 @@
 ﻿namespace GameOfLife.Interfaces
 {
-    internal interface IGameSetup
+    public interface IValidation
     {
-        Field GetUserInput();
-
         Field VertifyInput(string inputHeight, string inputWidth, Field field);
 
         bool ValidateInt(string input);
+
+        bool ValidateString(string input);
+
+        bool ValidateQuestion(string input);
     }
 }

@@ -3,7 +3,7 @@
     using System;
     using GameOfLife.Interfaces;
 
-    internal class FieldAlterations : IField, ISeedField
+    internal class FieldAlterations: IField, ISeedField
     {
         public Field GenerateField(Field field)
         {
@@ -20,15 +20,6 @@
             }
 
             return field;
-        }
-
-        public void GenerateFieldAndRun(Field field)
-        {
-            //this.SeedField(field);
-            this.GenerateField(field);
-
-            Display play = new Display();
-            play.PrintResultsLoop(field);
         }
 
         public Field SeedField(Field field)
