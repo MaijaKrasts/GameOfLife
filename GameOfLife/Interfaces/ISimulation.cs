@@ -7,7 +7,7 @@
     {
         List<Cell> StartNewGen(Field field);
 
-        void Grow(Field field, List<Cell> cells);
+        Field Grow(Field field, List<Cell> cells);
 
         bool ChangeLifeStatuss(int aliveneighbors, int currentRow, int currentColumn, Field field);
 

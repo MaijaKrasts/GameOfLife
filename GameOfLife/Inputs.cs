@@ -3,21 +3,21 @@
 
     using GameOfLife.Interfaces;
 
-    public class Inputs : ISetup
+    public class Inputs : IInputs
     {
         private string inputHeight;
         private string inputWidth;
 
         private Field field;
         private Validations validation;
-        private ProjFile file;
+        private FileWorker fileWorker;
         private ConsoleFacade facade;
 
         public Inputs()
         {
             facade = new ConsoleFacade();
             field = new Field();
-            file = new ProjFile();
+            fileWorker = new FileWorker();
             validation = new Validations();
         }
 
@@ -31,7 +31,7 @@
 
             if (validation.ValidateQuestion(answ))
             {
-                field = file.ReadInformation(field);
+                field = fileWorker.Load();
             }
             else if (!validation.ValidateQuestion(answ))
             {
@@ -43,8 +43,7 @@
                 facade.WriteLine("Number of columns (width):");
                 inputWidth = facade.ReadLine();
 
-                file.SaveInformation(inputHeight, inputWidth);
-                field = validation.VertifyInput(inputHeight, inputWidth, field);
+                field = validation.VertifyInput(inputHeight, inputWidth);
             }
 
             return field;

@@ -31,9 +31,11 @@
             return validInput;
         }
 
-        public Field VertifyInput(string inputHeight, string inputWidth, Field field)
+        public Field VertifyInput(string inputHeight, string inputWidth)
         {
-            if (ValidateInt(inputHeight) || ValidateInt(inputWidth))
+            Field field = new Field();
+
+            if (ValidateInt(inputHeight) && ValidateInt(inputWidth))
             {
                 int height = int.Parse(inputHeight);
                 int width = int.Parse(inputWidth);

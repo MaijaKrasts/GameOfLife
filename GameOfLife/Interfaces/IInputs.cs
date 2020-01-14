@@ -1,6 +1,6 @@
 ﻿namespace GameOfLife.Interfaces
 {
-    public interface ISetup
+    public interface IInputs
     {
         Field GetUserInput();
     }

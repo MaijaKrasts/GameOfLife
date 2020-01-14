@@ -3,6 +3,6 @@
     public static class Configurations
 
     {
-        public const string PATH = @"C:\Users\m.krastina\Documents\SavedFiles\ConsoleInput.Txt";
+        public const string PATH = @"C:\Users\m.krastina\Documents\SavedFiles\ConsoleFieldInput.dat";
     }
 }

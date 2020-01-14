@@ -2,7 +2,7 @@
 {
     public interface IValidation
     {
-        Field VertifyInput(string inputHeight, string inputWidth, Field field);
+        Field VertifyInput(string inputHeight, string inputWidth);
 
         bool ValidateInt(string input);
 

@@ -1,5 +1,8 @@
-﻿namespace GameOfLife
+﻿using System;
+
+namespace GameOfLife
 {
+    [Serializable]
     public class Field
     {
         public int Height { get; set; }

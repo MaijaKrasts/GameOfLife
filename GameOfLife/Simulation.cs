@@ -29,17 +29,20 @@
             return cells;
         }
 
-        public void Grow(Field field, List<Cell> cells)
+        public Field Grow(Field field, List<Cell> cells)
         {
             int aliveNeighbors = 0;
             for (int currentRow = 0; currentRow < field.Height; currentRow++)
             {
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    aliveNeighbors = cells.FirstOrDefault(c => c.CellColumn == currentColumn && c.CellRow == currentRow).AliveNeighbors;
-                    field.Cells[currentRow, currentColumn] = this.ChangeLifeStatuss(aliveNeighbors, currentRow, currentColumn, field);
+                    aliveNeighbors = cells.
+                        FirstOrDefault(c => c.CellColumn == currentColumn && c.CellRow == currentRow).AliveNeighbors;
+                    field.Cells[currentRow, currentColumn] = ChangeLifeStatuss(aliveNeighbors, currentRow, currentColumn, field);
                 }
             }
+
+            return field;
         }
 
         public bool ChangeLifeStatuss(int aliveneighbors, int currentRow, int currentColumn, Field field)
@@ -73,7 +76,7 @@
         {
             foreach (var cell in cells)
             {
-                cell.AliveNeighbors = this.GetNeighbors(cell.CellRow, cell.CellColumn, field);
+                cell.AliveNeighbors = GetNeighbors(cell.CellRow, cell.CellColumn, field);
             }
 
             Grow(field, cells);

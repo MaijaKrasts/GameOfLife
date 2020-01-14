@@ -1,7 +1,8 @@
 ﻿namespace GameOfLife.Interfaces
 {
-    public interface IField
+    public interface IFieldAlterations
     {
         Field GenerateField(Field field);
+        Field SeedField(Field field);
     }
 }
