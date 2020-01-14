@@ -9,8 +9,8 @@
         private string inputWidth;
 
         private Field field;
-        private Validations validation;
-        private FileWorker fileWorker;
+        private IValidation validation;
+        private IFileWorker fileWorker;
         private ConsoleFacade facade;
 
         public Inputs()
@@ -18,7 +18,7 @@
             facade = new ConsoleFacade();
             field = new Field();
             fileWorker = new FileWorker();
-            validation = new Validations();
+            validation = new Validation();
         }
 
         public Field GetUserInput()

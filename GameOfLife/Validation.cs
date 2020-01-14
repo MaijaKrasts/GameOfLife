@@ -4,11 +4,11 @@
     using System.Linq;
     using GameOfLife.Interfaces;
 
-    public class Validations : IValidation
+    public class Validation : IValidation
     {
         private ConsoleFacade facade;
 
-        public Validations()
+        public Validation()
         {
             facade = new ConsoleFacade();
         }

@@ -1,8 +1,6 @@
 ﻿namespace GameOfLife
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading;
     using GameOfLife.Interfaces;
 
     public class GameLoop : IGameLoop
@@ -10,12 +8,12 @@
         private int numOfIterations = 1;
 
         private IDisplay display;
-        private ConsoleFacade facade;
-        private FieldAlterations fieldAlterations;
+        private IConsoleFacade facade;
+        private IFieldAlterations fieldAlterations;
         private Field field;
-        private FileWorker file;
-        private Simulation simulation;
-        private Inputs userInputs;
+        private IFileWorker file;
+        private ISimulation simulation;
+        private IInputs userInputs;
 
         public GameLoop()
         {

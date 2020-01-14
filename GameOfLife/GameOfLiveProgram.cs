@@ -1,7 +1,6 @@
 ﻿namespace GameOfLife
 {
     using System;
-    using System.Threading;
 
     public class GameOfLiveProgram
     {
