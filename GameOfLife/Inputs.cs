@@ -1,6 +1,6 @@
 ﻿namespace GameOfLife
 {
-
+    using GameOfLife.Const;
     using GameOfLife.Interfaces;
 
     public class Inputs : IInputs
@@ -9,44 +9,71 @@
         private string inputWidth;
 
         private Field field;
-        private IValidation validation;
+        private IValidatior validation;
         private IFileWorker fileWorker;
-        private ConsoleFacade facade;
+        private IConsoleFacade facade;
+        private ITexts texts;
 
         public Inputs()
         {
             facade = new ConsoleFacade();
             field = new Field();
             fileWorker = new FileWorker();
-            validation = new Validation();
+            validation = new Validatior();
+            texts = new Texts();
         }
 
         public Field GetUserInput()
         {
-            facade.WriteLine("Welcome to the Game of Life!");
+            facade.WriteLine(texts.Intro());
             facade.WriteLine();
-
-            facade.WriteLine("Do you want to start from saved game? y/n");
+            facade.WriteLine(texts.StartFromSaved());
             var answ = facade.ReadLine().ToLower();
 
             if (validation.ValidateQuestion(answ))
             {
                 field = fileWorker.Load();
+                return field;
             }
             else if (!validation.ValidateQuestion(answ))
             {
-                facade.WriteLine("Add the parameters to create game field:");
-
-                facade.WriteLine("Number of rows (height):");
+                facade.WriteLine(texts.Param());
+                facade.WriteLine(texts.Height());
                 inputHeight = facade.ReadLine();
-
-                facade.WriteLine("Number of columns (width):");
+                facade.WriteLine(texts.Width());
                 inputWidth = facade.ReadLine();
 
-                field = validation.VertifyInput(inputHeight, inputWidth);
-            }
+                var validH = validation.ValidateInt(inputHeight);
+                var validW = validation.ValidateInt(inputWidth);
 
+                if (validH && validW)
+                {
+                    field = CreateInputField(inputHeight, inputWidth);
+                    return field;
+                }
+                else
+                {
+                    facade.WriteLine(texts.Error());
+                    GetUserInput();
+                    return field;
+                }
+            }
             return field;
+        }
+
+        public Field CreateInputField(string inputHeight, string inputWidth)
+        {
+            Field field = new Field();
+
+            int height = int.Parse(inputHeight);
+            int width = int.Parse(inputWidth);
+
+            field.Height = height;
+            field.Width = width;
+            field.Cells = new bool[height, width];
+            facade.Clear();
+            return field;
+
         }
     }
 }

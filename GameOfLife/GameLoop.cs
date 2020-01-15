@@ -1,6 +1,7 @@
 ﻿namespace GameOfLife
 {
     using System;
+    using GameOfLife.Const;
     using GameOfLife.Interfaces;
 
     public class GameLoop : IGameLoop
@@ -14,6 +15,7 @@
         private IFileWorker file;
         private ISimulation simulation;
         private IInputs userInputs;
+        private ITexts texts;
 
         public GameLoop()
         {
@@ -24,6 +26,7 @@
             file = new FileWorker();
             simulation = new Simulation();
             userInputs = new Inputs();
+            texts = new Texts();
         }
 
         public void Loop()
@@ -44,15 +47,16 @@
                     var key = Console.ReadKey(true);
                     if (key.Key == ConsoleKey.P)
                     {
-                        facade.WriteLine("You have paused the game? Click X if you want to exit the game; click S if you want to save it!");
+                        facade.Clear();
+                        facade.WriteLine(texts.Pause());
                         var answ = facade.ReadLine().ToLower();
-                        if (answ == "s")
+                        if (texts.True(answ))
                         {
                             file.Save(field);
-                            facade.WriteLine("saved");
+                            facade.WriteLine(texts.Approval());
                             break;
                         }
-                        else if (answ == "x")
+                        else if (texts.False(answ))
                         {
                             break;
                         }

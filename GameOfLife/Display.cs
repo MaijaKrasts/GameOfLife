@@ -1,21 +1,25 @@
 ﻿namespace GameOfLife
 {
     using System;
+    using GameOfLife.Const;
     using GameOfLife.Interfaces;
 
     public class Display : IDisplay
     {
-        private ConsoleFacade facade;
         private int numOfLiveCells;
+
+        private IConsoleFacade facade;
+        private ITexts texts;
 
         public Display()
         {
             facade = new ConsoleFacade();
+            texts = new Texts();
         }
 
         public int AddLiveCells()
         {
-            return this.numOfLiveCells++;
+            return numOfLiveCells++;
         }
 
         public void DrawGame(Field field)
@@ -27,17 +31,17 @@
                     var currentCell = field.Cells[currentRow, currentColumn];
                     if (currentCell)
                     {
-                        facade.Write("#");
-                        this.AddLiveCells();
+                        facade.Write(texts.Symbol());
+                        AddLiveCells();
                     }
                     else
                     {
-                        facade.Write(" ");
+                        facade.Write(texts.Empthy());
                     }
 
                     if (currentColumn == field.Width - 1)
                     {
-                        facade.WriteLine("\r");
+                        facade.WriteLine(texts.Return());
                     }
                 }
             }
@@ -45,8 +49,9 @@
 
         public void WriteProperties (int numOfIterations)
         {
-            Console.WriteLine("Number of iterations: {0}", numOfIterations);
-            Console.WriteLine("Number of live cells: {0}", numOfLiveCells);
+            facade.Count(texts.Interations(), numOfIterations);
+            facade.Count(texts.LiveCells(), numOfLiveCells);
+
             numOfLiveCells = 0;
             Console.SetCursorPosition(0, Console.WindowTop);
             System.Threading.Thread.Sleep(1000);

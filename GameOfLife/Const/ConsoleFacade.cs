@@ -30,5 +30,15 @@
         {
             Console.Clear();
         }
+
+        public void Exception(string text, string message)
+        {
+            Console.WriteLine(text + message);
+        }
+
+        public void Count(string text, int num)
+        {
+            Console.WriteLine(text, num);
+        }
     }
 }

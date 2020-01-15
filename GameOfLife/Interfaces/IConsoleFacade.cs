@@ -12,5 +12,7 @@
 
         public void Clear();
 
-    }
+        public void Exception(string text, string message);
+
+        public void Count(string text, int num);
 }
