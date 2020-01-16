@@ -12,22 +12,20 @@
         private IValidatior validation;
         private IFileWorker fileWorker;
         private IConsoleFacade facade;
-        private ITexts texts;
 
         public Inputs()
         {
             facade = new ConsoleFacade();
             field = new Field();
             fileWorker = new FileWorker();
-            validation = new Validatior();
-            texts = new Texts();
+            validation = new Validator();
         }
 
         public Field GetUserInput()
         {
-            facade.WriteLine(texts.Intro());
+            facade.WriteLine(Texts.Intro);
             facade.WriteLine();
-            facade.WriteLine(texts.StartFromSaved());
+            facade.WriteLine(Texts.StartFromSaved);
             var answ = facade.ReadLine().ToLower();
 
             if (validation.ValidateQuestion(answ))
@@ -37,10 +35,10 @@
             }
             else if (!validation.ValidateQuestion(answ))
             {
-                facade.WriteLine(texts.Param());
-                facade.WriteLine(texts.Height());
+                facade.WriteLine(Texts.Param);
+                facade.WriteLine(Texts.Height);
                 inputHeight = facade.ReadLine();
-                facade.WriteLine(texts.Width());
+                facade.WriteLine(Texts.Width);
                 inputWidth = facade.ReadLine();
 
                 var validH = validation.ValidateInt(inputHeight);
@@ -53,7 +51,7 @@
                 }
                 else
                 {
-                    facade.WriteLine(texts.Error());
+                    facade.WriteLine(Texts.Error);
                     GetUserInput();
                     return field;
                 }

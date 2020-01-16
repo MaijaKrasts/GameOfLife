@@ -4,11 +4,11 @@
     using GameOfLife.Const;
     using GameOfLife.Interfaces;
 
-    public class Validatior : IValidatior
+    public class Validator : IValidatior
     {
-        private ITexts texts;
+        private Texts texts;
 
-        public Validatior()
+        public Validator()
         {
             texts = new Texts();
         }

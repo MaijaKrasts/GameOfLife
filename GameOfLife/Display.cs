@@ -9,7 +9,7 @@
         private int numOfLiveCells;
 
         private IConsoleFacade facade;
-        private ITexts texts;
+        private Texts texts;
 
         public Display()
         {
@@ -31,17 +31,43 @@
                     var currentCell = field.Cells[currentRow, currentColumn];
                     if (currentCell)
                     {
-                        facade.Write(texts.Symbol());
+                        facade.Write(Texts.Symbol);
                         AddLiveCells();
                     }
                     else
                     {
-                        facade.Write(texts.Empthy());
+                        facade.Write(Texts.Empthy);
                     }
 
                     if (currentColumn == field.Width - 1)
                     {
-                        facade.WriteLine(texts.Return());
+                        facade.WriteLine(Texts.Return);
+                    }
+                }
+            }
+        }
+
+        public void DrawRepetitiousGame(Field field)
+        {
+            for (int currentRow = 0; currentRow < field.Height; currentRow++)
+            {
+                for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
+                {
+                    var currentCell = field.Cells[currentRow, currentColumn];
+
+                    if (currentCell)
+                    {
+                        facade.Write(Texts.Symbol);
+                        AddLiveCells();
+                    }
+                    else
+                    {
+                        facade.Write(Texts.Empthy);
+                    }
+
+                    if (currentColumn == field.Width - 1)
+                    {
+                        facade.WriteLine(Texts.Return);
                     }
                 }
             }
@@ -49,12 +75,12 @@
 
         public void WriteProperties (int numOfIterations)
         {
-            facade.Count(texts.Interations(), numOfIterations);
-            facade.Count(texts.LiveCells(), numOfLiveCells);
+            facade.Count(Texts.Interations, numOfIterations);
+            facade.Count(Texts.LiveCells, numOfLiveCells);
 
             numOfLiveCells = 0;
             Console.SetCursorPosition(0, Console.WindowTop);
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(300);
         }
     }
 }

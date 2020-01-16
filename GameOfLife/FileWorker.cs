@@ -1,5 +1,6 @@
 ﻿namespace GameOfLife
 {
+    using System;
     using System.IO;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -9,7 +10,7 @@
     public class FileWorker : IFileWorker
     {
         private IConsoleFacade facade;
-        private ITexts texts;
+        private Texts texts;
 
         public FileWorker()
         {
@@ -20,7 +21,7 @@
         public void Save(Field field)
         {
             var path = Configurations.PATH;
-            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+            FileStream fs = new FileStream(Path.Combine(Environment.CurrentDirectory,path), FileMode.Create, FileAccess.Write);
 
             BinaryFormatter formatter = new BinaryFormatter();
             try
@@ -29,7 +30,7 @@
             }
             catch (SerializationException e)
             {
-                facade.Exception(texts.SerializationException(), e.Message);
+                facade.Exception(Texts.SerializationException, e.Message);
                 throw;
             }
             finally
@@ -41,7 +42,7 @@
         public Field Load()
         {
             Field field = null;
-            var path = Configurations.PATH;
+            var path = Path.Combine(Environment.CurrentDirectory, Configurations.PATH);
 
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             try
@@ -51,7 +52,7 @@
             }
             catch (SerializationException e)
             {
-                facade.Exception(texts.DeserializationException(), e.Message);
+                facade.Exception(Texts.DeserializationException, e.Message);
                 throw;
             }
             finally

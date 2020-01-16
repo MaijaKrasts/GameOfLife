@@ -6,10 +6,16 @@
     {
         public static void Main(string[] args)
         {
-            GameLoop play = new GameLoop();
-            play.Loop();
+            ////single console version
+            //GameLoop play = new GameLoop();
+            //play.Loop();
 
+            //multiple console version:
+            GameLoop play = new GameLoop();
+            play.RepeatLoop();
             Console.Read();
+
+
         }
     }
 }
