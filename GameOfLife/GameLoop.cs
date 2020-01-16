@@ -57,7 +57,7 @@
                         {
                             file.Save(field);
                             facade.WriteLine(Texts.Approval);
-                            break;
+                            continue;
                         }
                         else if (texts.False(answ))
                         {
