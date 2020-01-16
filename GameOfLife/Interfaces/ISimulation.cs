@@ -5,7 +5,7 @@
 
     public interface ISimulation
     {
-        List<Cell> StartNewGen(Field field);
+        Field StartNewGen(Field field);
 
         Field Grow(Field field, List<Cell> cells);
 

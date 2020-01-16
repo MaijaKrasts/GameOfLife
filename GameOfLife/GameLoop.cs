@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using System.Threading.Tasks;
     using GameOfLife.Const;
     using GameOfLife.Interfaces;
@@ -72,26 +71,11 @@
             }
         }
 
-        public void SimplifiedLoop(Field field)
+        public void Parallellllls()
         {
-            var x = 0;
-            while (x < 10)
-            {
-                facade.Clear();
-                display.DrawGame(field);
-                simulation.StartNewGen(field);
-                numOfIterations++;
-                display.WriteProperties(numOfIterations);
-                x++;
-            }
-        }
-
-        public void ParallelLoops()
-        {
-            field = userInputs.GetUserInput();
-            field = fieldAlterations.GenerateField(field);
-
             List<Field> fieldList = new List<Field>();
+            field = userInputs.GetUserInput();
+
             var r = 0;
 
             while (r < 100)
@@ -99,26 +83,25 @@
                 field = fieldAlterations.GenerateField(field);
                 fieldList.Add(field);
                 r++;
-
             }
 
             Parallel.For(1, 100, i =>
             {
-                if (i < 9)
+                var r = 0;
+                while (r < 10)
                 {
-                    //print only 8 games
-                    SimplifiedLoop(fieldList[i]);
+                    foreach (var fieldyy in fieldList)
+                    {
+                        display.DrawGame(fieldyy);
+                        simulation.StartNewGen(fieldyy);
+                        display.Sleep();
+                        Console.SetCursorPosition(0, Console.WindowTop);
+                    }
+                    facade.Clear();
+                    r++;
                 }
-
-                else
-                {
-                    //dont print the rest of 92 games, just execute them
-                    simulation.StartNewGen(fieldList[i]);
-                }
-
             });
-
-            //Parallel.ForEach(fieldList, SimplifiedLoop);
+            facade.WriteLine("Done");
         }
     }
 }

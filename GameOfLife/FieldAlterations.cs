@@ -3,7 +3,7 @@
     using System;
     using GameOfLife.Interfaces;
 
-    internal class FieldAlterations : IFieldAlterations
+    public class FieldAlterations : IFieldAlterations
     {
         public Field GenerateField(Field field)
         {

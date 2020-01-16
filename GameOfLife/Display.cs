@@ -9,12 +9,10 @@
         private int numOfLiveCells;
 
         private IConsoleFacade facade;
-        private Texts texts;
 
         public Display()
         {
             facade = new ConsoleFacade();
-            texts = new Texts();
         }
 
         public int AddLiveCells()
@@ -82,5 +80,8 @@
             Console.SetCursorPosition(0, Console.WindowTop);
             System.Threading.Thread.Sleep(300);
         }
+
+        public void Sleep()
+        { System.Threading.Thread.Sleep(4000); }
     }
 }

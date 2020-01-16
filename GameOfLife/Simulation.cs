@@ -5,9 +5,9 @@
     using GameOfLife.Interfaces;
     using GameOfLife.Models;
 
-    internal class Simulation : ISimulation
+    public class Simulation : ISimulation
     {
-        public List<Cell> StartNewGen(Field field)
+        public Field StartNewGen(Field field)
         {
             List<Cell> cells = new List<Cell>();
 
@@ -26,7 +26,7 @@
             }
 
             this.FindNeighbors(cells, field);
-            return cells;
+            return field;
         }
 
         public Field Grow(Field field, List<Cell> cells)
