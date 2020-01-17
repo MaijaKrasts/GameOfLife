@@ -9,7 +9,7 @@
         private string inputWidth;
 
         private Field field;
-        private IValidatior validation;
+        private IValidator validation;
         private IFileWorker fileWorker;
         private IConsoleFacade facade;
 

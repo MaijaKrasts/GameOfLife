@@ -7,13 +7,13 @@
     public class FieldAlterations : IFieldAlterations
     {
         private Field field;
-        private IInputs userInputs;
+        private IInputs inputs;
         private Random generator;
 
         public FieldAlterations()
         {
             field = new Field();
-            userInputs = new Inputs();
+            inputs = new Inputs();
             generator = new Random(DateTime.Now.Millisecond);
         }
 
@@ -32,25 +32,25 @@
             return field;
         }
 
-        public List<Field> GetFieldList()
+        public List<Field> CreateFieldList()
         {
             List<Field> fieldList = new List<Field>();
-            field = userInputs.GetUserInput();
+            field = inputs.GetUserInput();
 
             var round = 0;
 
             while (round < 1000)
             {
-                Field parallelfield = new Field()
+                Field parallelField = new Field()
                 {
                     Height = field.Height,
                     Width = field.Width,
                     Cells = new bool[field.Height, field.Width],
                 };
 
-                parallelfield = GenerateField(parallelfield);
+                parallelField = GenerateField(parallelField);
 
-                fieldList.Add(parallelfield);
+                fieldList.Add(parallelField);
                 round++;
             }
 

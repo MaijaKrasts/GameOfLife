@@ -1,9 +1,7 @@
-﻿using System.Security.Cryptography;
-
-namespace GameOfLife
+﻿namespace GameOfLife
 {
     public static class Configurations
     {
-        public const string PATH = "ConsoleFieldInput.dat";
+        public const string FILE = "ConsoleFieldInput.dat";
     }
 }

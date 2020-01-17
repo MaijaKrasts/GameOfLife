@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using GameOfLife.Const;
     using GameOfLife.Interfaces;
 
@@ -94,14 +95,13 @@
         }
 
         public void Sleep()
-        { System.Threading.Thread.Sleep(1000); }
+        { Thread.Sleep(1000); }
 
         public void WritePropertiesForMultiple(int numOfIterations, int games)
         {
             facade.Count(Texts.Interations, numOfIterations);
             facade.Count(Texts.Games, games);
             Console.SetCursorPosition(0, 0);
-            Sleep();
         }
     }
 }

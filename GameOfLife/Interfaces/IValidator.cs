@@ -1,6 +1,6 @@
 ﻿namespace GameOfLife.Interfaces
 {
-    public interface IValidatior
+    public interface IValidator
     {
         bool ValidateInt(string input);
 

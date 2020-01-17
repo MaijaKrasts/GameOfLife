@@ -16,7 +16,7 @@
         public FileWorker()
         {
             facade = new ConsoleFacade();
-            file = Configurations.PATH;
+            file = Configurations.FILE;
         }
 
         public void Save(Field field)
@@ -42,7 +42,7 @@
         public Field Load()
         {
             Field field = null;
-            var path = Path.Combine(Environment.CurrentDirectory, Configurations.PATH);
+            var path = Path.Combine(Environment.CurrentDirectory, Configurations.FILE);
 
             FileStream fs = new FileStream(Path.Combine(Environment.CurrentDirectory, file), FileMode.Open, FileAccess.Read);
             try
@@ -66,7 +66,7 @@
 
         public void SaveMultiple(List<Field> fieldList)
         {
-            var file = Configurations.PATH;
+            var file = Configurations.FILE;
             FileStream fs = new FileStream(Path.Combine(Environment.CurrentDirectory, file), FileMode.Create, FileAccess.Write);
 
             BinaryFormatter formatter = new BinaryFormatter();

@@ -15,7 +15,7 @@
         private Field field;
         private IFileWorker file;
         private ISimulation simulation;
-        private IInputs userInputs;
+        private IInputs inputs;
         private Texts texts;
 
         public GameLoop()
@@ -26,13 +26,13 @@
             fieldAlterations = new FieldAlterations();
             file = new FileWorker();
             simulation = new Simulation();
-            userInputs = new Inputs();
+            inputs = new Inputs();
             texts = new Texts();
         }
 
         public void Loop()
         {
-            field = userInputs.GetUserInput();
+            field = inputs.GetUserInput();
             field = fieldAlterations.GenerateField(field);
 
             while (true)
@@ -72,7 +72,7 @@
 
         public void ParallelLoop()
         {
-            var fieldList = fieldAlterations.GetFieldList();
+            var fieldList = fieldAlterations.CreateFieldList();
             facade.Clear();
             display.DrawMultipleGames(fieldList);
             display.Sleep();
@@ -81,7 +81,7 @@
             {
                 int games = 0;
 
-                Parallel.For(1, 1000, i =>
+                Parallel.For(0, 1000, i =>
                 {
                     simulation.StartNewGen(fieldList[i]);
                     Console.SetCursorPosition(0, 0);
@@ -101,14 +101,16 @@
                         facade.WriteLine(Texts.Pause);
                         var answ = facade.ReadLine().ToLower();
                         if (texts.True(answ))
-                        { 
+                        {
                             file.SaveMultiple(fieldList);
                             facade.WriteLine(Texts.Approval);
+                            facade.Clear();
                             continue;
                         }
-                        facade.WriteLine(Texts.Pause);
-                        Console.ReadLine();
-                        facade.Clear();
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
             }

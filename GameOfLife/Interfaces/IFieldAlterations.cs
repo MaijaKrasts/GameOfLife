@@ -8,6 +8,6 @@
 
         Field SeedField(Field field);
 
-        List<Field> GetFieldList();
+        List<Field> CreateFieldList();
     }
 }

@@ -4,7 +4,7 @@
     using GameOfLife.Const;
     using GameOfLife.Interfaces;
 
-    public class Validator : IValidatior
+    public class Validator : IValidator
     {
         private Texts texts;
 

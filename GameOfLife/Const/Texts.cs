@@ -14,7 +14,7 @@
         public const string Height = "Number of rows (height):";
         public const string Width = "Number of columns (width):";
         public const string Error = "Height or width parameters were not right. Try again!";
-        public const string Pause = "You have paused the game? Click 1 if you want to SAVE it! Click 2 if you want to EXIT the game; ";
+        public const string Pause = "You have paused the game. Click 1 if you want to SAVE it! Click 2 if you want to EXIT the game; ";
         public const string Approval = "Game saved!";
         public const string DeserializationException = "Failed to deserialize. Reason: ";
         public const string SerializationException = "Failed to serialize. Reason: ";
