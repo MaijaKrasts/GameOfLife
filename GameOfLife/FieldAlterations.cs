@@ -1,10 +1,20 @@
 ﻿namespace GameOfLife
 {
     using System;
+    using System.Collections.Generic;
     using GameOfLife.Interfaces;
 
     public class FieldAlterations : IFieldAlterations
     {
+        private Field field;
+        private IInputs userInputs;
+
+        public FieldAlterations()
+        {
+            field = new Field();
+            userInputs = new Inputs();
+        }
+
         public Field GenerateField(Field field)
         {
             Random generator = new Random();
@@ -20,6 +30,23 @@
             }
 
             return field;
+        }
+
+        public List<Field> GetFieldList()
+        {
+            List<Field> fieldList = new List<Field>();
+            field = userInputs.GetUserInput();
+
+            var r = 0;
+
+            while (r < 1000)
+            {
+                field = GenerateField(field);
+                fieldList.Add(field);
+                r++;
+            }
+
+            return fieldList;
         }
 
         public Field SeedField(Field field)

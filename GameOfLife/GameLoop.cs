@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
     using GameOfLife.Const;
     using GameOfLife.Interfaces;
@@ -73,35 +74,33 @@
 
         public void Parallellllls()
         {
-            List<Field> fieldList = new List<Field>();
-            field = userInputs.GetUserInput();
+            var fieldList = fieldAlterations.GetFieldList();
+            display.DrawMultipleGames(fieldList);
 
-            var r = 0;
-
-            while (r < 100)
+            while (true)
             {
-                field = fieldAlterations.GenerateField(field);
-                fieldList.Add(field);
-                r++;
-            }
-
-            Parallel.For(1, 100, i =>
-            {
-                var r = 0;
-                while (r < 10)
+            Parallel.For(1, 1000, i =>
                 {
-                    foreach (var fieldyy in fieldList)
+                    simulation.StartNewGen(fieldList[i]);
+                    display.Sleep();
+                    Console.SetCursorPosition(0, 0);
+                });
+
+            display.DrawMultipleGames(fieldList);
+            display.WriteProperties(numOfIterations);
+            numOfIterations++;
+
+            if (Console.KeyAvailable)
+                {
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.P)
                     {
-                        display.DrawGame(fieldyy);
-                        simulation.StartNewGen(fieldyy);
-                        display.Sleep();
-                        Console.SetCursorPosition(0, Console.WindowTop);
+                        facade.WriteLine(Texts.Pause);
+                        Console.ReadLine();
+                        facade.Clear();
                     }
-                    facade.Clear();
-                    r++;
                 }
-            });
-            facade.WriteLine("Done");
+            }
         }
     }
 }
