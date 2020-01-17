@@ -1,6 +1,7 @@
 ﻿namespace GameOfLife
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -10,18 +11,17 @@
     public class FileWorker : IFileWorker
     {
         private IConsoleFacade facade;
-        private Texts texts;
+        private string file;
 
         public FileWorker()
         {
             facade = new ConsoleFacade();
-            texts = new Texts();
+            file = Configurations.PATH;
         }
 
         public void Save(Field field)
-        {
-            var path = Configurations.PATH;
-            FileStream fs = new FileStream(Path.Combine(Environment.CurrentDirectory,path), FileMode.Create, FileAccess.Write);
+        { 
+            FileStream fs = new FileStream(Path.Combine(Environment.CurrentDirectory, file), FileMode.Create, FileAccess.Write);
 
             BinaryFormatter formatter = new BinaryFormatter();
             try
@@ -44,7 +44,7 @@
             Field field = null;
             var path = Path.Combine(Environment.CurrentDirectory, Configurations.PATH);
 
-            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(Path.Combine(Environment.CurrentDirectory, file), FileMode.Open, FileAccess.Read);
             try
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -64,5 +64,29 @@
 
         }
 
+        public void SaveMultiple(List<Field> fieldList)
+        {
+            var file = Configurations.PATH;
+            FileStream fs = new FileStream(Path.Combine(Environment.CurrentDirectory, file), FileMode.Create, FileAccess.Write);
+
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                foreach (var field in fieldList)
+                {
+                    formatter.Serialize(fs, field);
+                }
+            }
+            catch (SerializationException e)
+            {
+                facade.Exception(Texts.SerializationException, e.Message);
+                throw;
+            }
+            finally
+            {
+                fs.Close();
+            }
+
+        }
     }
 }

@@ -8,6 +8,7 @@
     {
         private Field field;
         private IInputs userInputs;
+        private Random generator = new Random();
 
         public FieldAlterations()
         {
@@ -17,18 +18,16 @@
 
         public Field GenerateField(Field field)
         {
-            Random generator = new Random();
-            int number;
+            double number;
 
             for (int currentRow = 0; currentRow < field.Height; currentRow++)
             {
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    number = generator.Next(2);
-                    field.Cells[currentRow, currentColumn] = number != 0;
+                    number = generator.NextDouble();
+                    field.Cells[currentRow, currentColumn] = number > 0.5;
                 }
             }
-
             return field;
         }
 
@@ -39,13 +38,13 @@
 
             var r = 0;
 
-            while (r < 1000)
+            while (r < 1001)
             {
                 field = GenerateField(field);
+                //field = SeedField(field);
                 fieldList.Add(field);
                 r++;
             }
-
             return fieldList;
         }
 

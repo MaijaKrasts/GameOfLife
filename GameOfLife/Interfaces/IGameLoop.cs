@@ -3,5 +3,7 @@
     public interface IGameLoop
     {
         void Loop();
+
+        void ParallelLoop();
     }
 }

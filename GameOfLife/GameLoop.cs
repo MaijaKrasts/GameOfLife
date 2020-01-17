@@ -1,15 +1,13 @@
 ﻿namespace GameOfLife
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading;
     using System.Threading.Tasks;
     using GameOfLife.Const;
     using GameOfLife.Interfaces;
 
     public class GameLoop : IGameLoop
     {
-        private int numOfIterations = 1;
+        private int numOfIterations = 2;
 
         private Display display;
         private IConsoleFacade facade;
@@ -72,29 +70,42 @@
             }
         }
 
-        public void Parallellllls()
+        public void ParallelLoop()
         {
             var fieldList = fieldAlterations.GetFieldList();
+            facade.Clear();
             display.DrawMultipleGames(fieldList);
+            display.Sleep();
 
             while (true)
             {
-            Parallel.For(1, 1000, i =>
+                int games = 0;
+
+                Parallel.For(1, 1001, i =>
                 {
                     simulation.StartNewGen(fieldList[i]);
-                    display.Sleep();
                     Console.SetCursorPosition(0, 0);
+                    games++;
                 });
 
-            display.DrawMultipleGames(fieldList);
-            display.WriteProperties(numOfIterations);
-            numOfIterations++;
+                display.DrawMultipleGames(fieldList);
+                display.Sleep();
+                display.WritePropertiesForMultiple(numOfIterations, games);
+                numOfIterations++;
 
-            if (Console.KeyAvailable)
+                if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(true);
                     if (key.Key == ConsoleKey.P)
                     {
+                        facade.WriteLine(Texts.Pause);
+                        var answ = facade.ReadLine().ToLower();
+                        if (texts.True(answ))
+                        { 
+                            file.SaveMultiple(fieldList);
+                            facade.WriteLine(Texts.Approval);
+                            continue;
+                        }
                         facade.WriteLine(Texts.Pause);
                         Console.ReadLine();
                         facade.Clear();

@@ -7,6 +7,7 @@
         public const string Return = "\r";
         public const string LiveCells = "Number of live cells: {0}";
         public const string Interations = "Number of iterations: {0}";
+        public const string Games = "Number of games: {0}";
         public const string Intro = "Welcome to the Game of Life!";
         public const string StartFromSaved = "Do you want to start from saved game? 1 (yes) / 2 (no)";
         public const string Param = "Add the parameters to create game field:";

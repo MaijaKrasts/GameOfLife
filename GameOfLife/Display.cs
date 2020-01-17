@@ -51,11 +51,11 @@
         public void DrawMultipleGames(List<Field> fieldList)
         {
             int num = 0;
-            Random generator = new Random();
+            int index = 0;
 
             while (num < 8)
             {
-                field = fieldList[generator.Next(10)];
+                field = fieldList[index];
 
                 for (int currentRow = 0; currentRow < field.Height; currentRow++)
                 {
@@ -78,6 +78,7 @@
                         }
                     }
                 }
+                index++;
                 num++;
             }
         }
@@ -93,6 +94,14 @@
         }
 
         public void Sleep()
-        { System.Threading.Thread.Sleep(500); }
+        { System.Threading.Thread.Sleep(1000); }
+
+        public void WritePropertiesForMultiple(int numOfIterations, int games)
+        {
+            facade.Count(Texts.Interations, numOfIterations);
+            facade.Count(Texts.Games, games);
+            Console.SetCursorPosition(0, 0);
+            Sleep();
+        }
     }
 }

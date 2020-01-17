@@ -6,10 +6,9 @@
     {
         public static void Main(string[] args)
         {
-            ////single console version
             GameLoop play = new GameLoop();
-            play.Loop();
-            //play.Parallellllls();
+            //play.Loop();
+            play.ParallelLoop();
 
             Console.Read();
 
