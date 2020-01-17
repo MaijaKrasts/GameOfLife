@@ -81,7 +81,7 @@
             {
                 int games = 0;
 
-                Parallel.For(1, 1001, i =>
+                Parallel.For(1, 1000, i =>
                 {
                     simulation.StartNewGen(fieldList[i]);
                     Console.SetCursorPosition(0, 0);

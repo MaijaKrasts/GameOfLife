@@ -8,24 +8,25 @@
     {
         private Field field;
         private IInputs userInputs;
+        private Random generator;
 
         public FieldAlterations()
         {
             field = new Field();
             userInputs = new Inputs();
+            generator = new Random(DateTime.Now.Millisecond);
         }
 
         public Field GenerateField(Field field)
         {
-            double number;
-            Random generator = new Random(DateTime.Now.Millisecond);
+            int number;
 
             for (int currentRow = 0; currentRow < field.Height; currentRow++)
             {
                 for (int currentColumn = 0; currentColumn < field.Width; currentColumn++)
                 {
-                    number = generator.NextDouble();
-                    field.Cells[currentRow, currentColumn] = number > 0.5;
+                    number = generator.Next(2);
+                    field.Cells[currentRow, currentColumn] = number != 0;
                 }
             }
             return field;
@@ -36,22 +37,23 @@
             List<Field> fieldList = new List<Field>();
             field = userInputs.GetUserInput();
 
-            var rounds = 0;
+            var round = 0;
 
-            while (rounds < 1001)
+            while (round < 1000)
             {
-                Field field2 = new Field()
+                Field parallelfield = new Field()
                 {
                     Height = field.Height,
                     Width = field.Width,
                     Cells = new bool[field.Height, field.Width],
                 };
 
-                field2 = GenerateField(field2);
+                parallelfield = GenerateField(parallelfield);
 
-                fieldList.Add(field2);
-                rounds++;
+                fieldList.Add(parallelfield);
+                round++;
             }
+
             return fieldList;
         }
 

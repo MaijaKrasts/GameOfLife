@@ -50,10 +50,10 @@
 
         public void DrawMultipleGames(List<Field> fieldList)
         {
-            int num = 0;
+            int numOfFieldsOnScreen = 0;
             int index = 0;
 
-            while (num < 8)
+            while (numOfFieldsOnScreen < 8)
             {
                 field = fieldList[index];
 
@@ -79,7 +79,7 @@
                     }
                 }
                 index++;
-                num++;
+                numOfFieldsOnScreen++;
             }
         }
 
